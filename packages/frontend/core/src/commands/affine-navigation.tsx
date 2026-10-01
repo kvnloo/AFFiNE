@@ -94,6 +94,14 @@ export function registerAffineNavigationCommands({
       label: t['com.affine.cmdk.affine.navigation.open-settings'](),
       keyBinding: '$mod+,',
       run() {
+        if (
+          workspaceDialogService.dialogs$.value.some(
+            dialog => dialog.type === 'setting'
+          )
+        ) {
+          return;
+        }
+
         track.$.cmdk.settings.openSettings();
         workspaceDialogService.open('setting', {
           activeTab: 'appearance',
