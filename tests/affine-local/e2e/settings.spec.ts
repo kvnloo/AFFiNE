@@ -21,6 +21,17 @@ test('Open settings modal', async ({ page }) => {
   await expect(modal).toBeVisible();
 });
 
+test('settings shortcut does not stack duplicate modals', async ({ page }) => {
+  await openHomePage(page);
+  await waitForEditorLoad(page);
+
+  await page.keyboard.press('Control+,');
+  await expect(page.getByTestId('setting-modal')).toHaveCount(1);
+
+  await page.keyboard.press('Control+,');
+  await expect(page.getByTestId('setting-modal')).toHaveCount(1);
+});
+
 test('change language using keyboard', async ({ page }) => {
   await openHomePage(page);
   await waitForEditorLoad(page);
